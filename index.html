@@ -4,19 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Form Monitoring RO - PT PNM</title>
-  <!-- Google Fonts & Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --pnm-blue: #00529C;
       --pnm-blue-dark: #00386B;
       --pnm-green: #00A859;
       --pnm-green-light: #E6F6EC;
-      --pnm-bg: #F4F7FA;
-      --text-main: #2D3748;
-      --border-color: #E2E8F0;
+      --bg-gray: #F4F7FA;
+      --text-dark: #2C3E50;
+      --text-muted: #6C7A89;
+      --border-color: #DCE3EC;
     }
 
     * {
@@ -27,30 +25,29 @@
     }
 
     body {
-      background-color: var(--pnm-bg);
-      color: var(--text-main);
+      background-color: var(--bg-gray);
+      color: var(--text-dark);
+      padding: 20px;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-start;
     }
 
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 650px;
       background: #FFFFFF;
-      border-radius: 20px;
+      border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 82, 156, 0.08);
       overflow: hidden;
       border: 1px solid rgba(0, 82, 156, 0.1);
     }
 
-    /* Header Styling */
     .header {
       background: linear-gradient(135deg, var(--pnm-blue) 0%, var(--pnm-blue-dark) 100%);
-      color: white;
-      padding: 30px 25px;
+      color: #FFFFFF;
+      padding: 28px 24px;
       text-align: center;
       position: relative;
     }
@@ -61,244 +58,205 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, var(--pnm-green) 0%, #2ECC71 100%);
+      height: 4px;
+      background: var(--pnm-green);
     }
 
-    .header-logo-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-
-    .header i {
-      font-size: 28px;
-      color: #38EF7D;
-    }
-
-    .header h1 {
-      font-size: 22px;
+    .header h2 {
+      font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
     }
 
     .header p {
-      font-size: 13px;
-      opacity: 0.88;
-      font-weight: 300;
+      font-size: 0.875rem;
+      opacity: 0.9;
+      font-weight: 400;
     }
 
-    /* Form Body */
     .form-body {
-      padding: 30px 25px;
+      padding: 28px 24px;
     }
 
     .form-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       position: relative;
     }
 
     .form-group label {
       display: block;
-      font-size: 13px;
+      font-size: 0.875rem;
       font-weight: 600;
-      color: var(--pnm-blue-dark);
+      color: var(--text-dark);
       margin-bottom: 8px;
     }
 
-    .form-group label i {
-      margin-right: 6px;
-      color: var(--pnm-green);
+    .form-group label span {
+      color: #E74C3C;
     }
 
-    .input-control {
+    .form-control {
       width: 100%;
       padding: 12px 16px;
+      font-size: 0.95rem;
       border: 1.5px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 14px;
-      color: var(--text-main);
-      transition: all 0.3s ease;
+      border-radius: 8px;
       outline: none;
-      background-color: #FAFAFA;
+      transition: all 0.2s ease;
+      background-color: #FAFCFE;
     }
 
-    .input-control:focus {
+    .form-control:focus {
       border-color: var(--pnm-blue);
+      box-shadow: 0 0 0 3px rgba(0, 82, 156, 0.15);
       background-color: #FFFFFF;
-      box-shadow: 0 0 0 4px rgba(0, 82, 156, 0.1);
     }
 
-    /* Suggestion List (Unit Kerja) */
-    .suggestions-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      max-height: 180px;
-      overflow-y: auto;
-      z-index: 100;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      display: none;
-      margin-top: 4px;
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
     }
 
-    .suggestion-item {
-      padding: 10px 14px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background 0.2s;
-    }
-
-    .suggestion-item:hover {
-      background-color: var(--pnm-green-light);
-      color: var(--pnm-blue-dark);
-      font-weight: 500;
-    }
-
-    /* Multi-select Badges & Custom Input (Aktivitas) */
-    .selected-tags {
+    /* Tag Multi-Select Aktivitas */
+    .tags-container {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 8px;
+      padding: 8px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      background-color: #FAFCFE;
+      min-height: 48px;
+      align-items: center;
     }
 
-    .tag {
+    .tags-container:focus-within {
+      border-color: var(--pnm-blue);
+      box-shadow: 0 0 0 3px rgba(0, 82, 156, 0.15);
+      background-color: #FFFFFF;
+    }
+
+    .tag-item {
       background: var(--pnm-green-light);
-      color: var(--pnm-blue-dark);
-      border: 1px solid rgba(0, 168, 89, 0.3);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
+      color: var(--pnm-green);
       font-weight: 600;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      border: 1px solid rgba(0, 168, 89, 0.2);
     }
 
-    .tag i {
+    .tag-item .remove-btn {
       cursor: pointer;
-      color: #E74C3C;
-      transition: transform 0.2s;
+      font-weight: bold;
+      color: var(--pnm-green);
+      font-size: 1rem;
+      line-height: 1;
     }
 
-    .tag i:hover {
-      transform: scale(1.2);
+    .tag-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      flex: 1;
+      min-width: 120px;
+      padding: 4px;
+      font-size: 0.9rem;
     }
 
-    /* File Upload Area */
+    /* Custom File Input Upload */
     .file-upload-box {
-      border: 2px dashed var(--pnm-blue);
-      border-radius: 12px;
+      border: 2px dashed var(--border-color);
+      border-radius: 8px;
       padding: 20px;
       text-align: center;
-      background-color: #F8FAFC;
+      background: #FAFCFE;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
 
     .file-upload-box:hover {
-      background-color: var(--pnm-green-light);
-      border-color: var(--pnm-green);
+      border-color: var(--pnm-blue);
+      background: #F0F5FA;
     }
 
-    .file-upload-box i {
-      font-size: 32px;
-      color: var(--pnm-blue);
-      margin-bottom: 8px;
-    }
-
-    .file-upload-box p {
-      font-size: 13px;
-      color: #64748B;
-    }
-
-    .file-upload-box input[type="file"] {
+    .file-upload-box input {
       display: none;
     }
 
-    .preview-img {
-      max-width: 100%;
+    .file-upload-label {
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-upload-label strong {
+      color: var(--pnm-blue);
+    }
+
+    .file-preview {
+      margin-top: 10px;
       max-height: 180px;
-      border-radius: 10px;
-      margin-top: 12px;
+      border-radius: 8px;
       display: none;
       object-fit: cover;
+      width: 100%;
       border: 1px solid var(--border-color);
     }
 
     /* Submit Button */
     .btn-submit {
       width: 100%;
-      background: linear-gradient(135deg, var(--pnm-blue) 0%, var(--pnm-green) 100%);
-      color: white;
+      background: linear-gradient(135deg, var(--pnm-green) 0%, #008F4C 100%);
+      color: #FFFFFF;
       border: none;
       padding: 14px;
-      border-radius: 12px;
-      font-size: 15px;
+      font-size: 1rem;
       font-weight: 700;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       box-shadow: 0 4px 12px rgba(0, 168, 89, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
     }
 
     .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 168, 89, 0.35);
+      opacity: 0.95;
+      transform: translateY(-1px);
     }
 
     .btn-submit:disabled {
-      background: #CBD5E1;
+      background: #BDC3C7;
       cursor: not-allowed;
-      transform: none;
       box-shadow: none;
     }
 
-    /* Loading Spinner */
-    .spinner {
-      display: none;
-      width: 18px;
-      height: 18px;
-      border: 2px solid #FFFFFF;
-      border-top: 2px solid transparent;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Alert Message */
+    /* Status Alert */
     .alert {
       padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 13px;
+      border-radius: 8px;
+      font-size: 0.875rem;
       margin-bottom: 20px;
       display: none;
     }
 
     .alert-success {
       background-color: var(--pnm-green-light);
-      color: #065F46;
-      border: 1px solid #A7F3D0;
+      color: var(--pnm-green);
+      border: 1px solid rgba(0, 168, 89, 0.3);
     }
 
     .alert-error {
-      background-color: #FEE2E2;
-      color: #991B1B;
-      border: 1px solid #FCA5A5;
+      background-color: #FDEDEC;
+      color: #E74C3C;
+      border: 1px solid rgba(231, 76, 60, 0.3);
     }
   </style>
 </head>
@@ -306,10 +264,7 @@
 
   <div class="container">
     <div class="header">
-      <div class="header-logo-title">
-        <i class="fa-solid fa-clipboard-check"></i>
-        <h1>MONITORING RO</h1>
-      </div>
+      <h2>FORM MONITORING RO</h2>
       <p>PT Permodalan Nasional Madani</p>
     </div>
 
@@ -317,286 +272,229 @@
       <div id="alertBox" class="alert"></div>
 
       <form id="monitoringForm">
-        
-        <!-- 1. Isian Tanggal -->
+        <!-- 1. Tanggal -->
         <div class="form-group">
-          <label for="tanggal"><i class="fa-solid fa-calendar-day"></i> Tanggal Monitoring</label>
-          <input type="date" id="tanggal" class="input-control" required>
+          <label for="tanggal">Tanggal Monitoring <span>*</span></label>
+          <input type="date" id="tanggal" class="form-control" required>
         </div>
 
-        <!-- 2. Unit Kerja (Suggest List Terdekat) -->
+        <!-- 2. Unit Kerja (Suggest List Sheet DETAIL Kolom B) -->
         <div class="form-group">
-          <label for="unitKerjaInput"><i class="fa-solid fa-building"></i> Unit Kerja</label>
-          <input type="text" id="unitKerjaInput" class="input-control" placeholder="Ketik nama unit kerja..." autocomplete="off" required>
-          <div id="unitSuggestions" class="suggestions-list"></div>
+          <label for="unitKerja">Unit Kerja <span>*</span></label>
+          <input type="text" id="unitKerja" list="listUnitKerja" class="form-control" placeholder="Ketik / Pilih Unit Kerja..." autocomplete="off" required>
+          <datalist id="listUnitKerja"></datalist>
         </div>
 
-        <!-- 3. Aktivitas (Suggest List, Multi-Select & Custom) -->
+        <!-- 3. Aktivitas (Suggest List Sheet OPERATOR Kolom F + Multi Pilih/Kustom) -->
         <div class="form-group">
-          <label><i class="fa-solid fa-list-check"></i> Aktivitas (Bisa Pilih >1 atau Tambah Kustom)</label>
-          <div id="selectedAktivitasTags" class="selected-tags"></div>
-          <input type="text" id="aktivitasInput" class="input-control" placeholder="Pilih dari lis atau ketik aktivitas baru, tekan Enter..." autocomplete="off">
-          <div id="aktivitasSuggestions" class="suggestions-list"></div>
+          <label for="aktivitasInput">Aktivitas <span>*</span> (Bisa Pilih Lebih Dari Satu / Ketik Baru)</label>
+          <div class="tags-container" id="tagsContainer">
+            <input type="text" id="aktivitasInput" class="tag-input" list="listAktivitas" placeholder="Ketik/Pilih & Tekan Enter..." autocomplete="off">
+          </div>
+          <datalist id="listAktivitas"></datalist>
         </div>
 
-        <!-- 4. Isian Temuan / Deskripsi -->
+        <!-- 4. Temuan -->
         <div class="form-group">
-          <label for="temuan"><i class="fa-solid fa-file-lines"></i> Temuan / Deskripsi</label>
-          <textarea id="temuan" class="input-control" rows="4" placeholder="Tuliskan hasil temuan monitoring secara rinci..." required></textarea>
+          <label for="temuan">Deskripsi Temuan <span>*</span></label>
+          <textarea id="temuan" class="form-control" placeholder="Tuliskan temuan atau hasil monitoring..." required></textarea>
         </div>
 
-        <!-- 5. Upload Foto Monitoring -->
+        <!-- 5. Upload Foto -->
         <div class="form-group">
-          <label><i class="fa-solid fa-camera"></i> Upload Foto Monitoring</label>
+          <label>Upload Foto Monitoring <span>*</span></label>
           <div class="file-upload-box" onclick="document.getElementById('fotoInput').click()">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p id="uploadText">Klik di sini untuk mengambil / unggah foto</p>
+            <div class="file-upload-label">
+              <span>📷 <strong>Klik untuk pilih foto</strong> atau drag ke sini</span>
+              <span id="fileNameDisplay" style="font-size: 0.8rem; color: var(--pnm-green);"></span>
+            </div>
             <input type="file" id="fotoInput" accept="image/*" required onchange="handleFileSelect(event)">
           </div>
-          <img id="imagePreview" class="preview-img" alt="Preview Foto">
+          <img id="imagePreview" class="file-preview" alt="Preview Foto">
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" id="btnSubmit" class="btn-submit">
-          <span class="spinner" id="btnSpinner"></span>
-          <span id="btnText"><i class="fa-solid fa-paper-plane"></i> Kirim Data Monitoring</span>
-        </button>
-
+        <button type="submit" id="submitBtn" class="btn-submit">SIMPAN MONITORING</button>
       </form>
     </div>
   </div>
 
   <script>
-    // ========================================================
-    // TINGGAL UBAH DEPLOYMENT URL GOOGLE APPS SCRIPT DI SINI:
-    // ========================================================
+    // DEPLOYMENT URL
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwPAA7Zs9lCHnut3GuvcrMcDzVRZw5TYVvDdUd-XtHuQqsfoessl2OWzmjzHxikmUsgZw/exec";
 
-    // Master Data
-    let listUnitKerja = [];
-    let listAktivitas = [];
     let selectedAktivitas = [];
-    let fotoBase64Data = null;
+    let base64Foto = null;
 
-    // Inisialisasi
-    document.addEventListener("DOMContentLoaded", function() {
-      // Set Tanggal default ke Hari Ini
-      document.getElementById('tanggal').valueAsDate = new Date();
-      
-      // Load Data Master dari Apps Script
-      fetchMasterData();
+    // Load initial data dari Sheet "DETAIL" dan "OPERATOR"
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set default tanggal hari ini
+      document.getElementById('tanggal').valueToDate = new Date();
+      document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+
+      fetchDataMaster();
     });
 
-    // Fetch Data Master (Unit Kerja & Aktivitas)
-    function fetchMasterData() {
-      if (!WEB_APP_URL || WEB_APP_URL === "DEPLOY_URL_HERES") return;
-
+    function fetchDataMaster() {
       fetch(WEB_APP_URL)
-        .then(res => res.json())
+        .then(response => response.json())
         .then(data => {
-          if (data.unitKerja) listUnitKerja = data.unitKerja;
-          if (data.aktivitas) listAktivitas = data.aktivitas;
+          // Populate Unit Kerja dari Sheet DETAIL Kolom B (Index 1)
+          if (data.detail && data.detail.length > 0) {
+            const listUnit = document.getElementById('listUnitKerja');
+            const unitSet = new Set();
+            data.detail.forEach(row => {
+              if (row[1]) unitSet.add(row[1]);
+            });
+            unitSet.forEach(unit => {
+              const option = document.createElement('option');
+              option.value = unit;
+              listUnit.appendChild(option);
+            });
+          }
+
+          // Populate Aktivitas dari Sheet OPERATOR Kolom F (Index 5)
+          if (data.operator && data.operator.length > 0) {
+            const listAktivitas = document.getElementById('listAktivitas');
+            const aktivitasSet = new Set();
+            data.operator.forEach(row => {
+              if (row[5]) aktivitasSet.add(row[5]);
+            });
+            aktivitasSet.forEach(akt => {
+              const option = document.createElement('option');
+              option.value = akt;
+              listAktivitas.appendChild(option);
+            });
+          }
         })
-        .catch(err => console.error("Gagal mengambil master data:", err));
+        .catch(err => console.error("Gagal mengambil data master:", err));
     }
 
-    // --- AUTOCOMPLETE UNIT KERJA ---
-    const unitInput = document.getElementById('unitKerjaInput');
-    const unitSuggestBox = document.getElementById('unitSuggestions');
+    // Dynamic Multi-Select Aktivitas
+    const aktivitasInput = document.getElementById('aktivitasInput');
+    const tagsContainer = document.getElementById('tagsContainer');
 
-    unitInput.addEventListener('input', function() {
-      const val = this.value.toLowerCase().trim();
-      unitSuggestBox.innerHTML = '';
-      if (!val) {
-        unitSuggestBox.style.display = 'none';
-        return;
-      }
-
-      const matches = listUnitKerja.filter(item => item.toLowerCase().includes(val));
-      if (matches.length > 0) {
-        matches.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'suggestion-item';
-          div.textContent = item;
-          div.onclick = function() {
-            unitInput.value = item;
-            unitSuggestBox.style.display = 'none';
-          };
-          unitSuggestBox.appendChild(div);
-        });
-        unitSuggestBox.style.display = 'block';
-      } else {
-        unitSuggestBox.style.display = 'none';
-      }
-    });
-
-    // --- AKTIVITAS (SUGGEST, MULTI-SELECT & KUSTOM) ---
-    const aktInput = document.getElementById('aktivitasInput');
-    const aktSuggestBox = document.getElementById('aktivitasSuggestions');
-    const tagsContainer = document.getElementById('selectedAktivitasTags');
-
-    aktInput.addEventListener('input', function() {
-      const val = this.value.toLowerCase().trim();
-      aktSuggestBox.innerHTML = '';
-      
-      const matches = listAktivitas.filter(item => 
-        item.toLowerCase().includes(val) && !selectedAktivitas.includes(item)
-      );
-
-      if (matches.length > 0) {
-        matches.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'suggestion-item';
-          div.textContent = item;
-          div.onclick = function() {
-            addAktivitasTag(item);
-            aktInput.value = '';
-            aktSuggestBox.style.display = 'none';
-          };
-          aktSuggestBox.appendChild(div);
-        });
-        aktSuggestBox.style.display = 'block';
-      } else {
-        aktSuggestBox.style.display = 'none';
-      }
-    });
-
-    aktInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
+    aktivitasInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',') {
         e.preventDefault();
-        const val = this.value.trim();
-        if (val) {
-          addAktivitasTag(val);
-          this.value = '';
-          aktSuggestBox.style.display = 'none';
-        }
+        addAktivitasTag(this.value.trim());
       }
     });
 
-    function addAktivitasTag(text) {
-      if (!selectedAktivitas.includes(text)) {
-        selectedAktivitas.push(text);
+    aktivitasInput.addEventListener('change', function() {
+      addAktivitasTag(this.value.trim());
+    });
+
+    function addAktivitasTag(val) {
+      if (!val) return;
+      if (!selectedAktivitas.includes(val)) {
+        selectedAktivitas.push(val);
         renderTags();
       }
+      aktivitasInput.value = '';
     }
 
-    function removeAktivitasTag(text) {
-      selectedAktivitas = selectedAktivitas.filter(item => item !== text);
+    function removeAktivitasTag(val) {
+      selectedAktivitas = selectedAktivitas.filter(item => item !== val);
       renderTags();
     }
 
     function renderTags() {
-      tagsContainer.innerHTML = '';
-      selectedAktivitas.forEach(item => {
-        const span = document.createElement('span');
-        span.className = 'tag';
-        span.innerHTML = `${item} <i class="fa-solid fa-xmark" onclick="removeAktivitasTag('${item}')"></i>`;
-        tagsContainer.appendChild(span);
+      // Clear tag-item lama
+      const existingTags = tagsContainer.querySelectorAll('.tag-item');
+      existingTags.forEach(tag => tag.remove());
+
+      selectedAktivitas.forEach(val => {
+        const tag = document.createElement('div');
+        tag.className = 'tag-item';
+        tag.innerHTML = `${val} <span class="remove-btn" onclick="removeAktivitasTag('${val}')">&times;</span>`;
+        tagsContainer.insertBefore(tag, aktivitasInput);
       });
     }
 
-    // Hide suggestion boxes when click outside
-    document.addEventListener('click', function(e) {
-      if (!unitInput.contains(e.target)) unitSuggestBox.style.display = 'none';
-      if (!aktInput.contains(e.target)) aktSuggestBox.style.display = 'none';
-    });
+    // Handle File Upload Preview & Base64
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-    // --- HANDLE FILE PHOTO UPLOAD & PREVIEW ---
-    function handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (file) {
-        document.getElementById('uploadText').innerText = file.name;
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          fotoBase64Data = {
-            name: file.name,
-            base64: event.target.result
-          };
-          const preview = document.getElementById('imagePreview');
-          preview.src = event.target.result;
-          preview.style.display = 'block';
+      document.getElementById('fileNameDisplay').textContent = file.name;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        base64Foto = {
+          name: file.name,
+          base64: e.target.result
         };
-        reader.readAsDataURL(file);
-      }
+        const imgPreview = document.getElementById('imagePreview');
+        imgPreview.src = e.target.result;
+        imgPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
     }
 
-    // --- FORM SUBMISSION ---
+    // Form Submit Handler
     document.getElementById('monitoringForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
       if (selectedAktivitas.length === 0) {
-        showAlert('Harap tambahkan minimal 1 Aktivitas!', 'error');
+        showAlert("Pilih atau ketik minimal satu Aktivitas!", "error");
         return;
       }
 
-      if (!fotoBase64Data) {
-        showAlert('Harap unggah Foto Monitoring!', 'error');
+      if (!base64Foto) {
+        showAlert("Silakan upload foto monitoring terlebih dahulu!", "error");
         return;
       }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "SAVING DATA...";
 
       const payload = {
-        action: "MONITORING_RO",
-        tanggal: document.getElementById('tanggal').value,
-        unitKerja: document.getElementById('unitKerjaInput').value,
-        aktivitas: selectedAktivitas,
+        action: "monitoring_ro",
+        tanggalMonitoring: document.getElementById('tanggal').value,
+        unitKerja: document.getElementById('unitKerja').value,
+        aktivitas: selectedAktivitas.join(", "),
         temuan: document.getElementById('temuan').value,
-        fotoMonitoring: fotoBase64Data
+        fotoMonitoring: base64Foto
       };
-
-      setLoading(true);
 
       fetch(WEB_APP_URL, {
         method: 'POST',
         body: JSON.stringify(payload)
       })
       .then(res => res.json())
-      .then(data => {
-        setLoading(false);
-        if (data.status === "SUCCESS") {
-          showAlert(data.message, 'success');
-          resetForm();
+      .then(res => {
+        if (res.status === "SUCCESS") {
+          showAlert("Data Monitoring RO Berhasil Disimpan!", "success");
+          document.getElementById('monitoringForm').reset();
+          selectedAktivitas = [];
+          renderTags();
+          document.getElementById('imagePreview').style.display = 'none';
+          document.getElementById('fileNameDisplay').textContent = '';
+          base64Foto = null;
         } else {
-          showAlert("Gagal: " + data.message, 'error');
+          showAlert("Gagal: " + res.message, "error");
         }
       })
       .catch(err => {
-        setLoading(false);
-        showAlert("Terjadi kesalahan jaringan/sistem: " + err.toString(), 'error');
+        showAlert("Terjadi kesalahan saat menyimpan data.", "error");
+        console.error(err);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "SIMPAN MONITORING";
       });
     });
 
-    function setLoading(isLoading) {
-      const btn = document.getElementById('btnSubmit');
-      const spinner = document.getElementById('btnSpinner');
-      const btnText = document.getElementById('btnText');
-
-      if (isLoading) {
-        btn.disabled = true;
-        spinner.style.display = 'inline-block';
-        btnText.style.display = 'none';
-      } else {
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        btnText.style.display = 'inline-flex';
-      }
-    }
-
-    function showAlert(msg, type) {
-      const box = document.getElementById('alertBox');
-      box.className = `alert alert-${type}`;
-      box.textContent = msg;
-      box.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function resetForm() {
-      document.getElementById('monitoringForm').reset();
-      document.getElementById('tanggal').valueAsDate = new Date();
-      selectedAktivitas = [];
-      fotoBase64Data = null;
-      renderTags();
-      document.getElementById('uploadText').innerText = 'Klik di sini untuk mengambil / unggah foto';
-      document.getElementById('imagePreview').style.display = 'none';
+    function showAlert(message, type) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = message;
+      alertBox.className = `alert ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+      alertBox.style.display = 'block';
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 5000);
     }
   </script>
 </body>
